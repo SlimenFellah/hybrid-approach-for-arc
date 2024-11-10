@@ -42,19 +42,49 @@
 #         # Implement feature extraction logic here
 #         return features
 
+# import json
+# import os
+
+# class DataLoader:
+#     def __init__(self, base_dir):
+#         self.base_dir = base_dir
+
+#     def load_data(self, subset='training'):
+#         """Load JSON files from the specified subset (training/evaluation/test)."""
+#         data_path = os.path.join(self.base_dir, subset)
+#         tasks = {}
+#         for filename in os.listdir(data_path):
+#             if filename.endswith('.json'):
+#                 with open(os.path.join(data_path, filename), 'r') as f:
+#                     tasks[filename] = json.load(f)
+#         return tasks
+
 import json
-import os
+import numpy as np
+from pathlib import Path
+from typing import Dict, List, Tuple, Any
+from config import Config
 
-class DataLoader:
-    def __init__(self, base_dir):
-        self.base_dir = base_dir
+class ARCDataLoader:
+    def __init__(self, data_dir: Path):
+        self.data_dir = data_dir
 
-    def load_data(self, subset='training'):
-        """Load JSON files from the specified subset (training/evaluation/test)."""
-        data_path = os.path.join(self.base_dir, subset)
-        tasks = {}
-        for filename in os.listdir(data_path):
-            if filename.endswith('.json'):
-                with open(os.path.join(data_path, filename), 'r') as f:
-                    tasks[filename] = json.load(f)
+    def load_task(self, task_file: Path) -> Dict[str, Any]:
+        with open(task_file, 'r') as f:
+            return json.load(f)
+    
+    def load_all_tasks(self) -> List[Dict[str, Any]]:
+        tasks = []
+        for task_file in self.data_dir.glob('*.json'):
+            tasks.append(self.load_task(task_file))
         return tasks
+    
+    def get_train_test_pairs(self, task: Dict[str, Any]) -> Tuple[List[Tuple[np.ndarray, np.ndarray]], List[Tuple[np.ndarray, np.ndarray]]]:
+        train_pairs = [(np.array(pair['input']), np.array(pair['output'])) 
+                    for pair in task['train']]
+        
+        test_pairs = [(np.array(pair['input']), np.array(pair['output']) 
+                    if 'output' in pair else None) 
+                    for pair in task['test']]
+        
+        return train_pairs, test_pairs
