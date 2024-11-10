@@ -13,6 +13,8 @@ from utils.visualization import plot_grid, compare_grids
 data_loader = DataLoader('dataset')
 training_data = data_loader.load_data('training')
 
+training_data = {k: training_data[k] for i, k in enumerate(training_data) if i < 5}  # Load only 5 tasks for now
+
 # Initialize models
 encoder = GridEncoder()
 recognizer = PatternRecognizer()
