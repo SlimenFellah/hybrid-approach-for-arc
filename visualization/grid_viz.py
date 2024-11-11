@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from src.config import Config
+from config import Config
 
 class GridVisualizer:
     @staticmethod

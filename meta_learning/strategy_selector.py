@@ -2,7 +2,7 @@ import numpy as np
 from typing import Dict, List, Tuple
 import torch
 import torch.nn as nn
-from src.config import Config
+from config import Config
 
 class StrategySelector(nn.Module):
     def __init__(self, feature_dim: int = 256, num_strategies: int = 5):

@@ -2,27 +2,30 @@ import torch
 import numpy as np
 from pathlib import Path
 from typing import Dict, List, Tuple, Any
-from src.config import Config
-from src.data_handling.data_loader import ARCDataLoader
-from src.feature_extraction.neural_features import NeuralFeatureExtractor
-from src.feature_extraction.symbolic_features import SymbolicFeatureExtractor
-from src.feature_extraction.statistical_features import StatisticalFeatureExtractor
-from src.pattern_recognition.deep_learning import DeepLearningModel
-from src.pattern_recognition.rule_based import RuleBasedSystem
-from src.pattern_recognition.heuristics import HeuristicEngine
-from src.solution_generation.program_synthesis import ProgramSynthesizer
-from src.solution_generation.neural_decoder import NeuralDecoder
-from src.visualization.grid_viz import GridVisualizer
+from config import Config
+from data.data_loader import ARCDataLoader
+# from feature_extraction.neural_features import NeuralFeatureExtractor
+from feature_extraction.neural_features import CNNFeatureExtractor
+from feature_extraction.symbolic_features import SymbolicFeatureExtractor
+from feature_extraction.statistical_features import StatisticalFeatureExtractor
+# from pattern_recognition.deep_learning import DeepLearningModel
+from pattern_recognition.deep_learning import PatternRecognitionModel
+# from pattern_recognition.rule_based import RuleBasedSystem
+from pattern_recognition.rule_based import RuleBasedPatternRecognizer
+from pattern_recognition.heuristics import HeuristicEngine
+from solution_generation.program_synthesis import ProgramSynthesizer
+from solution_generation.neural_decoder import NeuralDecoder
+from visualization.grid_viz import GridVisualizer
 
 class ARCController:
     def __init__(self):
         # Initialize components
-        self.neural_extractor = NeuralFeatureExtractor()
+        self.neural_extractor = CNNFeatureExtractor()
         self.symbolic_extractor = SymbolicFeatureExtractor()
         self.statistical_extractor = StatisticalFeatureExtractor()
         
-        self.deep_learning = DeepLearningModel()
-        self.rule_system = RuleBasedSystem()
+        self.deep_learning = PatternRecognitionModel()
+        self.rule_system = RuleBasedPatternRecognizer()
         self.heuristic_engine = HeuristicEngine()
         
         self.program_synthesizer = ProgramSynthesizer()

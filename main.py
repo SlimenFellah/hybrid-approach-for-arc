@@ -48,10 +48,10 @@
 
 import argparse
 from pathlib import Path
-from src.config import Config
-from src.data_handling.data_loader import ARCDataLoader
-from src.meta_learning.controller import ARCController
-from src.visualization.grid_viz import GridVisualizer
+from config import Config
+from data.data_loader import ARCDataLoader
+from meta_learning.controller import ARCController
+from visualization.grid_viz import GridVisualizer
 
 def parse_args():
     parser = argparse.ArgumentParser(description='ARC Solver')

@@ -43,7 +43,7 @@ class ProgramSynthesizer:
         return transformations
     
     def synthesize_program(self, input_grids: List[np.ndarray], 
-                          output_grids: List[np.ndarray]) -> List[Transformation]:
+                        output_grids: List[np.ndarray]) -> List[Transformation]:
         best_program = []
         best_score = float('inf')
         

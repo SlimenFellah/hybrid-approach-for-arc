@@ -346,11 +346,7 @@
 #         is_repeating = True
         
 #         for i in range(length, len(arr), length):
-            
-            
-            
-            
-            
+
 
 # helpers.py
 import numpy as np

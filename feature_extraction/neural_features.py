@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import numpy as np
-from src.config import Config
+from config import Config
 
 class CNNFeatureExtractor(nn.Module):
     def __init__(self):
