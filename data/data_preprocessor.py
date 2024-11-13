@@ -1,3 +1,7 @@
+from config import Config
+import numpy as np
+from typing import Dict, Any
+
 class ARCPreprocessor:
     @staticmethod
     def pad_grid(grid: np.ndarray, target_size: int = Config.MAX_GRID_SIZE) -> np.ndarray:
