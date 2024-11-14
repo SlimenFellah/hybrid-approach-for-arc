@@ -4,13 +4,10 @@ from pathlib import Path
 from typing import Dict, List, Tuple, Any
 from config import Config
 from data.data_loader import ARCDataLoader
-# from feature_extraction.neural_features import NeuralFeatureExtractor
 from feature_extraction.neural_features import CNNFeatureExtractor
 from feature_extraction.symbolic_features import SymbolicFeatureExtractor
 from feature_extraction.statistical_features import StatisticalFeatureExtractor
-# from pattern_recognition.deep_learning import DeepLearningModel
 from pattern_recognition.deep_learning import PatternRecognitionModel
-# from pattern_recognition.rule_based import RuleBasedSystem
 from pattern_recognition.rule_based import RuleBasedPatternRecognizer
 from pattern_recognition.heuristics import HeuristicEngine
 from solution_generation.program_synthesis import ProgramSynthesizer
@@ -100,7 +97,7 @@ class ARCController:
         return transformations
     
     def solve_task(self, train_pairs: List[Tuple[np.ndarray, np.ndarray]], 
-                  test_input: np.ndarray) -> np.ndarray:
+                test_input: np.ndarray) -> np.ndarray:
         """Solve a task given training pairs and test input"""
         # Analyze task
         analysis = self.analyze_task(train_pairs)
@@ -132,15 +129,15 @@ class ARCController:
         program_confidence = max([t['confidence'] for t in analysis['potential_transformations'] 
                                 if t['type'] == 'program'], default=0)
         neural_confidence = max([t['confidence'] for t in analysis['potential_transformations']
-                               if t['type'] == 'neural'], default=0)
+                            if t['type'] == 'neural'], default=0)
         
         # Select strategy with highest confidence
         if program_confidence > neural_confidence:
             return next(t for t in analysis['potential_transformations'] 
-                       if t['type'] == 'program' and t['confidence'] == program_confidence)
+                    if t['type'] == 'program' and t['confidence'] == program_confidence)
         else:
             return next(t for t in analysis['potential_transformations']
-                       if t['type'] == 'neural' and t['confidence'] == neural_confidence)
+                    if t['type'] == 'neural' and t['confidence'] == neural_confidence)
     
     def validate_solution(self, solution: np.ndarray) -> bool:
         """Validate generated solution"""
