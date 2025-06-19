@@ -1,5 +1,5 @@
 from dataloader.arc_data_loader import ARCDataLoader
-from symbolic_rules.rule_library import repeat_tile_flip_pattern
+from symbolic_rules.rule_library import repeat_tile_flip_row_blocks
 
 
 class ARCSolver:
@@ -11,7 +11,7 @@ class ARCSolver:
         predictions = []
 
         for test_input in task.get_test_inputs():
-            predicted = repeat_tile_flip_pattern(test_input)
+            predicted = repeat_tile_flip_row_blocks(test_input)
             predictions.append(predicted)
 
         return predictions

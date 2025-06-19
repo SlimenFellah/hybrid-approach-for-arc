@@ -1,6 +1,7 @@
 # main.py
 from dataloader.arc_data_loader import ARCDataLoader
 from arc_solver import ARCSolver
+from evaluation.evaluation import evaluate_task, print_evaluation_summary
 
 loader = ARCDataLoader(
     challenges_path="data/arc-agi_training_challenges.json",
@@ -34,13 +35,18 @@ loader.load()
 
 # Solve a specific task
 solver = ARCSolver(loader)
-preds = solver.solve_task_00576224()
 
 # Show predictions visually
-task = loader.get_task("00576224")
-for i, pred in enumerate(preds):
-    print(f"\nTest {i+1} Prediction:")
-    task.visualize_grid(pred, title="Predicted Output")
+task_id = "00576224"
+task = loader.get_task(task_id)
+
+predictions = solver.solve_task_00576224()
+correct, total = evaluate_task(task, predictions)
+
+print_evaluation_summary(task_id, correct, total)
+
+for i, pred in enumerate(predictions):
+    task.visualize_grid(pred, title=f"Predicted Output {i+1}")
 
     if i < len(task.get_test_outputs()):
-        task.visualize_grid(task.get_test_outputs()[i], title="Expected Output")
+        task.visualize_grid(task.get_test_outputs()[i], title=f"Expected Output {i+1}")
