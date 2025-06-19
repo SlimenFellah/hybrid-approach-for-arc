@@ -2,6 +2,24 @@ import json
 from pathlib import Path
 from typing import List, Dict, Any, Optional, Tuple
 
+import matplotlib.pyplot as plt
+import numpy as np
+
+
+# Define a color map for values 0-9 (ARC uses values between 0 and 9)
+ARC_COLORS = [
+    "#000000",  # 0 - black
+    "#0074D9",  # 1 - blue
+    "#2ECC40",  # 2 - green
+    "#FF4136",  # 3 - red
+    "#FFDC00",  # 4 - yellow
+    "#AAAAAA",  # 5 - gray
+    "#F012BE",  # 6 - magenta
+    "#FF851B",  # 7 - orange
+    "#870C25",  # 8 - dark red
+    "#FFFFFF",  # 9 - white
+]
+
 
 class ARCTask:
     def __init__(self, task_id: str, train_pairs: List[Dict], test_pairs: List[Dict], solutions: Optional[List[List[List[int]]]] = None):
@@ -18,6 +36,41 @@ class ARCTask:
 
     def get_test_outputs(self) -> List[List[List[int]]]:
         return self.solutions
+
+    def visualize_grid(self, grid: List[List[int]], title: str = ""):
+        """Show a single grid."""
+        arr = np.array(grid)
+        cmap = plt.matplotlib.colors.ListedColormap(ARC_COLORS)
+        plt.imshow(arr, cmap=cmap, vmin=0, vmax=9)
+        plt.axis("off")
+        if title:
+            plt.title(title)
+        plt.show()
+
+    def visualize_train_pairs(self):
+        for i, (inp, out) in enumerate(self.get_train_io()):
+            fig, axs = plt.subplots(1, 2, figsize=(6, 3))
+            for ax, grid, label in zip(axs, [inp, out], ["Input", "Output"]):
+                ax.imshow(np.array(grid), cmap=plt.matplotlib.colors.ListedColormap(ARC_COLORS), vmin=0, vmax=9)
+                ax.set_title(f"Train {i+1} - {label}")
+                ax.axis("off")
+            plt.tight_layout()
+            plt.show()
+
+    def visualize_test_cases(self):
+        for i, test_input in enumerate(self.get_test_inputs()):
+            fig, ax = plt.subplots(figsize=(3, 3))
+            ax.imshow(np.array(test_input), cmap=plt.matplotlib.colors.ListedColormap(ARC_COLORS), vmin=0, vmax=9)
+            ax.set_title(f"Test {i+1} - Input")
+            ax.axis("off")
+            plt.show()
+
+            if i < len(self.solutions):
+                fig, ax = plt.subplots(figsize=(3, 3))
+                ax.imshow(np.array(self.solutions[i]), cmap=plt.matplotlib.colors.ListedColormap(ARC_COLORS), vmin=0, vmax=9)
+                ax.set_title(f"Test {i+1} - Expected Output")
+                ax.axis("off")
+                plt.show()
 
 
 class ARCDataLoader:
